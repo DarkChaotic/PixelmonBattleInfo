@@ -14,7 +14,8 @@ base {
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
 minecraft {
-    mappings channel: mapping_channel, version: mapping_version
+    mappings channel: 'official', version: '1.16.5'
+
 
     // When true, this property will have all Eclipse/IntelliJ IDEA run configurations run the "prepareX" task for the given run configuration before launching the game.
     // In most cases, it is not necessary to enable.
@@ -81,6 +82,8 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
     mavenCentral()
+    maven { url 'https://files.minecraftforge.net/maven' }
+    maven { url 'https://maven.minecraftforge.net/' }
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     maven { url 'https://repo.lucko.me/' }
     maven { url = "https://repo.aikar.co/content/groups/aikar/" }

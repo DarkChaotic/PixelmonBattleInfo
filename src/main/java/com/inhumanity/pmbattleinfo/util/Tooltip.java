@@ -4,6 +4,8 @@ import com.inhumanity.pmbattleinfo.config.ClientConfig;
 
 import com.pixelmonmod.pixelmon.api.pokemon.Element;
 import com.pixelmonmod.pixelmon.api.pokemon.stats.Moveset;
+import com.pixelmonmod.pixelmon.api.pokemon.stats.BattleStats;
+import com.pixelmonmod.pixelmon.api.pokemon.stats.BattleStatsType;
 import com.pixelmonmod.pixelmon.battles.api.rules.clauses.BattleClauseRegistry;
 import com.pixelmonmod.pixelmon.battles.attacks.Attack;
 import com.pixelmonmod.pixelmon.battles.attacks.Effectiveness;
@@ -51,9 +53,13 @@ public class Tooltip {
 
         // General Attributes
         attributes.put(TooltipValues.Types, newSTC("Types: " + String.join(", ", PCD.getBaseStats().getTypes().stream().map(Element::getLocalizedName).toArray(String[]::new))));
-        attributes.put(TooltipValues.Palette, newSTC("Palette: " + PCD.palette));
-        attributes.put(TooltipValues.Weight, newSTC("Weight: " + PCD.getBaseStats().getWeight()));
-        attributes.put(TooltipValues.Form, newSTC("Form: " + PCD.form));
+        attributes.put(TooltipValues.Attack, newSTC("Attack: " + PCD.getBaseStats().getBattleStats().getStat(BattleStatsType.ATTACK)));
+        attributes.put(TooltipValues.Defense, newSTC("Defense: " + PCD.getBaseStats().getBattleStats().getStat(BattleStatsType.DEFENSE)));
+        attributes.put(TooltipValues.SpAtk, newSTC("Sp. Atk: " + PCD.getBaseStats().getBattleStats().getStat(BattleStatsType.SPECIAL_ATTACK)));
+        attributes.put(TooltipValues.SpDef, newSTC("Sp. Def: " + PCD.getBaseStats().getBattleStats().getStat(BattleStatsType.SPECIAL_DEFENSE)));
+        attributes.put(TooltipValues.Speed, newSTC("Speed: " + PCD.getBaseStats().getBattleStats().getStat(BattleStatsType.SPEED)));
+        attributes.put(TooltipValues.Accuracy, newSTC("Accuracy: " + PCD.getBaseStats().getBattleStats().getStat(BattleStatsType.ACCURACY)));
+        attributes.put(TooltipValues.Evasiveness, newSTC("Evasiveness: " + PCD.getBaseStats().getBattleStats().getStat(BattleStatsType.EVASION)));
 
         // Add Ownership / Config determined Attributes
         if (isOurs && !hasMultipleOurs)     attributes.putAll(getTooltipOurs(PCD));
@@ -65,9 +71,13 @@ public class Tooltip {
         res.add(attributes.get(TooltipValues.Types));
         res.add(attributes.get(TooltipValues.Ability));
         res.add(attributes.get(TooltipValues.HeldItem));
-        res.add(attributes.get(TooltipValues.Form));
-        res.add(attributes.get(TooltipValues.Palette));
-        res.add(attributes.get(TooltipValues.Weight));
+        res.add(attributes.get(TooltipValues.Attack));
+        res.add(attributes.get(TooltipValues.Defense));
+        res.add(attributes.get(TooltipValues.SpAtk));
+        res.add(attributes.get(TooltipValues.SpDef));
+        res.add(attributes.get(TooltipValues.Speed));
+        res.add(attributes.get(TooltipValues.Accuracy));
+        res.add(attributes.get(TooltipValues.Evasiveness));
 
         // Show Moveset of current Pixelmon if User owns multiple displayed Pixelmon
         // OR if it is an Enemy or an Ally
@@ -81,19 +91,15 @@ public class Tooltip {
             // Add moves if they exist
             if (attributes.get(TooltipValues.Move1) != null) {
                 res.add(attributes.get(TooltipValues.Move1));
-                res.add(attributes.get(TooltipValues.Move1Info));
             }
             if (attributes.get(TooltipValues.Move2) != null) {
                 res.add(attributes.get(TooltipValues.Move2));
-                res.add(attributes.get(TooltipValues.Move2Info));
             }
             if (attributes.get(TooltipValues.Move3) != null) {
                 res.add(attributes.get(TooltipValues.Move3));
-                res.add(attributes.get(TooltipValues.Move3Info));
             }
             if (attributes.get(TooltipValues.Move4) != null) {
                 res.add(attributes.get(TooltipValues.Move4));
-                res.add(attributes.get(TooltipValues.Move4Info));
             }
         }
 
@@ -147,19 +153,15 @@ public class Tooltip {
                     switch (i) {
                         case 1:
                             enumMove = TooltipValues.Move1;
-                            enumMoveInfo = TooltipValues.Move1Info;
                             break;
                         case 2:
                             enumMove = TooltipValues.Move2;
-                            enumMoveInfo = TooltipValues.Move2Info;
                             break;
                         case 3:
                             enumMove = TooltipValues.Move3;
-                            enumMoveInfo = TooltipValues.Move3Info;
                             break;
                         case 4:
                             enumMove = TooltipValues.Move4;
-                            enumMoveInfo = TooltipValues.Move4Info;
                             break;
                     }
 
