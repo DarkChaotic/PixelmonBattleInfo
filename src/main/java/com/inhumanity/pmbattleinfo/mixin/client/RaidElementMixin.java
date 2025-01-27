@@ -30,6 +30,7 @@ public abstract class RaidElementMixin extends PixelmonWidget {
 
     @Shadow(remap = false)
     private PixelmonClientData enemy;
+    private PixelmonClientDataMixin ememystats;
 
     @Inject(method = "drawElement(Lcom/mojang/blaze3d/matrix/MatrixStack;F)V", at = @At("TAIL"), remap = false)
     private void drawPixelmonBattleTooltipEnemy(MatrixStack matrix, float scale, CallbackInfo ci) {
@@ -56,19 +57,19 @@ public abstract class RaidElementMixin extends PixelmonWidget {
         int alpha = Tooltip.getAlpha();
 
         if (idx == 0 && InputMappings.isKeyDown(window, kbBattleTTEnemy_1.getKey().getValue())) {
-            ScreenHelper.renderTooltip(matrix, x, y, Tooltip.getTooltip(enemy), gradient, background, alpha, false, false);
+            ScreenHelper.renderTooltip(matrix, x, y, Tooltip.getTooltip(enemy,ememystats), gradient, background, alpha, false, false);
         }
         else if (idx == 1 && InputMappings.isKeyDown(window, kbBattleTTEnemy_2.getKey().getValue())) {
-            ScreenHelper.renderTooltip(matrix, x, y, Tooltip.getTooltip(enemy), gradient, background, alpha, false, false);
+            ScreenHelper.renderTooltip(matrix, x, y, Tooltip.getTooltip(enemy,ememystats), gradient, background, alpha, false, false);
         }
         else if (idx == 2 && InputMappings.isKeyDown(window, kbBattleTTEnemy_3.getKey().getValue())) {
-            ScreenHelper.renderTooltip(matrix, x, y, Tooltip.getTooltip(enemy), gradient, background, alpha, false, false);
+            ScreenHelper.renderTooltip(matrix, x, y, Tooltip.getTooltip(enemy,ememystats), gradient, background, alpha, false, false);
         }
         else if (idx == 3 && InputMappings.isKeyDown(window, kbBattleTTEnemy_4.getKey().getValue())) {
-            ScreenHelper.renderTooltip(matrix, x, y, Tooltip.getTooltip(enemy), gradient, background, alpha, false, false);
+            ScreenHelper.renderTooltip(matrix, x, y, Tooltip.getTooltip(enemy,ememystats), gradient, background, alpha, false, false);
         }
         else if (idx == 4 && InputMappings.isKeyDown(window, kbBattleTTEnemy_5.getKey().getValue())) {
-            ScreenHelper.renderTooltip(matrix, x, y, Tooltip.getTooltip(enemy), gradient, background, alpha, false, false);
+            ScreenHelper.renderTooltip(matrix, x, y, Tooltip.getTooltip(enemy,ememystats), gradient, background, alpha, false, false);
         }
     }
 }

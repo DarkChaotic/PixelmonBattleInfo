@@ -1,10 +1,9 @@
 package com.inhumanity.pmbattleinfo.util;
 
 import com.inhumanity.pmbattleinfo.config.ClientConfig;
-
+import com.inhumanity.pmbattleinfo.mixin.client.PixelmonClientDataMixin;
 import com.pixelmonmod.pixelmon.api.pokemon.Element;
 import com.pixelmonmod.pixelmon.api.pokemon.stats.Moveset;
-import com.pixelmonmod.pixelmon.api.pokemon.stats.BattleStats;
 import com.pixelmonmod.pixelmon.api.pokemon.stats.BattleStatsType;
 import com.pixelmonmod.pixelmon.battles.api.rules.clauses.BattleClauseRegistry;
 import com.pixelmonmod.pixelmon.battles.attacks.Attack;
@@ -32,7 +31,7 @@ public class Tooltip {
     public static int getBackground() { return background; }
     public static int getAlpha() { return alpha; }
 
-    public static Collection<ITextComponent> getTooltip(final PixelmonClientData PCD) {
+    public static Collection<ITextComponent> getTooltip(final PixelmonClientData PCD, final PixelmonClientDataMixin PCDM) {
         Collection<ITextComponent> res = new ArrayList<>();
         if (PCD == null) return res;
 
@@ -53,13 +52,13 @@ public class Tooltip {
 
         // General Attributes
         attributes.put(TooltipValues.Types, newSTC("Types: " + String.join(", ", PCD.getBaseStats().getTypes().stream().map(Element::getLocalizedName).toArray(String[]::new))));
-        attributes.put(TooltipValues.Attack, newSTC("Attack: " + PCD.getBaseStats().getBattleStats().getStat(BattleStatsType.ATTACK)));
-        attributes.put(TooltipValues.Defense, newSTC("Defense: " + PCD.getBaseStats().getBattleStats().getStat(BattleStatsType.DEFENSE)));
-        attributes.put(TooltipValues.SpAtk, newSTC("Sp. Atk: " + PCD.getBaseStats().getBattleStats().getStat(BattleStatsType.SPECIAL_ATTACK)));
-        attributes.put(TooltipValues.SpDef, newSTC("Sp. Def: " + PCD.getBaseStats().getBattleStats().getStat(BattleStatsType.SPECIAL_DEFENSE)));
-        attributes.put(TooltipValues.Speed, newSTC("Speed: " + PCD.getBaseStats().getBattleStats().getStat(BattleStatsType.SPEED)));
-        attributes.put(TooltipValues.Accuracy, newSTC("Accuracy: " + PCD.getBaseStats().getBattleStats().getStat(BattleStatsType.ACCURACY)));
-        attributes.put(TooltipValues.Evasiveness, newSTC("Evasiveness: " + PCD.getBaseStats().getBattleStats().getStat(BattleStatsType.EVASION)));
+        attributes.put(TooltipValues.Attack, newSTC("Attack: " + PCDM.getBattleStats().getAttackModifier()));
+        attributes.put(TooltipValues.Defense, newSTC("Defense: " + PCDM.getBattleStats().getDefenseModifier())); 
+        attributes.put(TooltipValues.SpAtk, newSTC("Sp. Atk: " + PCDM.getBattleStats().getSpecialAttackModifier()));
+        attributes.put(TooltipValues.SpDef, newSTC("Sp. Def: " + PCDM.getBattleStats().getSpecialDefenseModifier()));
+        attributes.put(TooltipValues.Speed, newSTC("Speed: " + PCDM.getBattleStats().getSpeedModifier()));
+        attributes.put(TooltipValues.Accuracy, newSTC("Accuracy: " + PCDM.getBattleStats().getAccuracyStage()));
+        attributes.put(TooltipValues.Evasiveness, newSTC("Evasiveness: " + PCDM.getBattleStats().getEvasionStage()));
 
         // Add Ownership / Config determined Attributes
         if (isOurs && !hasMultipleOurs)     attributes.putAll(getTooltipOurs(PCD));
@@ -113,9 +112,6 @@ public class Tooltip {
         res.put(TooltipValues.Ability, newSTC("Ability: " + ours.moveset.getAbility().getLocalizedName()));
         res.put(TooltipValues.HeldItem, newSTC("Held Item: " + ours.heldItem.getLocalizedName()));
 
-        // HP: curr / max
-        // Ability
-        // Held Item
         return res;
     }
 
@@ -132,11 +128,12 @@ public class Tooltip {
         String ability = (!configAbility ? "?" : AllyOrEnemy.moveset.getAbility().getLocalizedName());
         String heldItemName = (!configHeldItem ? "?" : AllyOrEnemy.heldItem.getLocalizedName());
 
-        res.put(TooltipValues.HP, newSTC(String.format("HP: %s / %s", hpCurr, hpMax)));
+        double hpPercent = (Double.parseDouble(hpCurr)/Double.parseDouble(hpMax))*100;
+
+        res.put(TooltipValues.HP, newSTC(String.format("HP: "+ hpPercent +"%" ))); 
         res.put(TooltipValues.Ability, newSTC("Ability: " + ability));
         res.put(TooltipValues.HeldItem, newSTC("Held Item: " + heldItemName));
 
-        // If moveset config on
         if (configKnowMoveset) {
             Moveset moveset = AllyOrEnemy.moveset;
 
@@ -185,11 +182,6 @@ public class Tooltip {
             }
         }
 
-        // HP: curr / max   (CONFIG)
-        // Ability          (CONFIG)
-        // Held Item        (CONFIG)
-        // Move Info P1     (CONFIG)
-        // Move Info P2     (^ SAME CONFIG)
         return res;
     }
 
@@ -212,8 +204,6 @@ public class Tooltip {
     private static TextFormatting getMoveTextColor(boolean isEnemy, Element atkType) {
         TextFormatting color = TextFormatting.WHITE;
 
-        // If PCD is enemy, get effectiveness to Our
-        // Otherwise, get effectiveness to Enemy because it is Our
         if (isEnemy)
             color = getMultiplierColor(Element.getTotalEffectiveness(getOurTypes(), atkType, isInverseBattle()));
         else if (isSpectating())

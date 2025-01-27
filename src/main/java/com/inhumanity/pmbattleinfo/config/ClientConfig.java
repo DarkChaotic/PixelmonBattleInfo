@@ -26,7 +26,7 @@ public class ClientConfig {
         // Modules
         battleRemoveNickname = BUILDER
             .comment("Replace Pixelmon Nicknames with Localized Species Name")
-            .define("RemoveNicknames", true);
+            .define("RemoveNicknames", false);
 
         battlePixelmonTooltip = BUILDER
             .comment("Display Tooltip when Hovering Pixelmon while in Battle (or hold 'alt' for enemy, 'shift' for yours)")
@@ -48,15 +48,15 @@ public class ClientConfig {
 
         battleKnowEnemyAbility = BUILDER
             .comment("In PixelmonTooltip, inherently know enemy exact Ability")
-            .define("TooltipEnemyAbility", true);
+            .define("TooltipEnemyAbility", false);
 
         battleKnowEnemyHeldItem = BUILDER
             .comment("In PixelmonTooltip, inherently know enemy exact Held Item")
-            .define("TooltipEnemyHeldItem", true);
+            .define("TooltipEnemyHeldItem", false);
         
         battleKnowEnemyMoveset = BUILDER
             .comment("In PixelmonTooltip, inherently know enemy exact Moveset")
-            .define("TooltipEnemyMoveset", true);
+            .define("TooltipEnemyMoveset", false);
         
         BUILDER.pop();
         SPEC = BUILDER.build();

@@ -45,12 +45,18 @@ public abstract class MoveButtonMixin {
         PixelmonClientData enemy = ClientProxy.battleManager.displayedEnemyPokemon[0];
 
         double multiplier = Element.getTotalEffectiveness(enemy.getBaseStats().getTypes(), attack.getType(), isInverseBattle);
-
-        if (multiplier == Effectiveness.Max.value)          return new Color(0, 170, 0);        // DARK_GREEN
-        else if (multiplier == Effectiveness.Super.value)   return new Color(85, 255, 85);      // GREEN
-        else if (multiplier == Effectiveness.Normal.value)  return new Color(255, 255, 255);    // WHITE
-        else if (multiplier == Effectiveness.Not.value)     return new Color(255, 85, 85);      // RED
-        else if (multiplier == Effectiveness.Barely.value)  return new Color(170, 0, 0);        // DARK_RED
-        else                                                return new Color(85, 85, 85);    // GRAY
+        
+        switch (attack.getAttackCategory()) {
+            case STATUS:
+            return new Color(255, 255, 255);
+            default:
+            if (multiplier == Effectiveness.Max.value)          return new Color(0, 170, 0);        // DARK_GREEN
+            else if (multiplier == Effectiveness.Super.value)   return new Color(85, 255, 85);      // GREEN
+            else if (multiplier == Effectiveness.Normal.value)  return new Color(255, 255, 255);    // WHITE
+            else if (multiplier == Effectiveness.Not.value)     return new Color(255, 85, 85);      // RED
+            else if (multiplier == Effectiveness.Barely.value)  return new Color(170, 0, 0);        // DARK_RED
+            else                                                return new Color(85, 85, 85);    // GRAY
+        }
+        
     }
 }

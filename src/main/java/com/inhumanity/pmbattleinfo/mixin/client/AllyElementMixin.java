@@ -32,6 +32,7 @@ public abstract class AllyElementMixin extends PixelmonWidget {
 
     @Shadow(remap = false)
     private PixelmonClientData ally;
+    private PixelmonClientDataMixin allystats;
 
     private static int xPos = 15;
     private static int yPos = 45;
@@ -66,19 +67,19 @@ public abstract class AllyElementMixin extends PixelmonWidget {
         int alpha = Tooltip.getAlpha();
 
         if (idx == 0 && InputMappings.isKeyDown(window, kbBattleTTAlly_1.getKey().getValue())) {
-            ScreenHelper.renderTooltip(matrix, xPos, yPos, Tooltip.getTooltip(ally), gradient, background, alpha, false, false);
+            ScreenHelper.renderTooltip(matrix, xPos, yPos, Tooltip.getTooltip(ally,allystats), gradient, background, alpha, false, false);
         }
         else if (idx == 1 && InputMappings.isKeyDown(window, kbBattleTTAlly_2.getKey().getValue())) {
-            ScreenHelper.renderTooltip(matrix, xPos, yPos, Tooltip.getTooltip(ally), gradient, background, alpha, false, false);
+            ScreenHelper.renderTooltip(matrix, xPos, yPos, Tooltip.getTooltip(ally,allystats), gradient, background, alpha, false, false);
         }
         else if (idx == 2 && InputMappings.isKeyDown(window, kbBattleTTAlly_3.getKey().getValue())) {
-            ScreenHelper.renderTooltip(matrix, xPos, yPos, Tooltip.getTooltip(ally), gradient, background, alpha, false, false);
+            ScreenHelper.renderTooltip(matrix, xPos, yPos, Tooltip.getTooltip(ally,allystats), gradient, background, alpha, false, false);
         }
         else if (idx == 3 && InputMappings.isKeyDown(window, kbBattleTTAlly_4.getKey().getValue())) {
-            ScreenHelper.renderTooltip(matrix, xPos, yPos, Tooltip.getTooltip(ally), gradient, background, alpha, false, false);
+            ScreenHelper.renderTooltip(matrix, xPos, yPos, Tooltip.getTooltip(ally,allystats), gradient, background, alpha, false, false);
         }
         else if (idx == 4 && InputMappings.isKeyDown(window, kbBattleTTAlly_5.getKey().getValue())) {
-            ScreenHelper.renderTooltip(matrix, xPos, yPos, Tooltip.getTooltip(ally), gradient, background, alpha, false, false);
+            ScreenHelper.renderTooltip(matrix, xPos, yPos, Tooltip.getTooltip(ally,allystats), gradient, background, alpha, false, false);
         }
 
 //        if (test.isPresent()) {

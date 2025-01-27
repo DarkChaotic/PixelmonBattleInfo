@@ -15,6 +15,7 @@
     "client.OpponentElementMixin",
     "client.RaidElementMixin",
 
-    "client.ItemMenuButtonMixin"
+    "client.ItemMenuButtonMixin",
+    "client.PixelmonClientDataMixin"
   ]
 }
